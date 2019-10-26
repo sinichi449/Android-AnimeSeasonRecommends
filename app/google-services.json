@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "832236548768",
+    "firebase_url": "https://anime-recommendation.firebaseio.com",
+    "project_id": "anime-recommendation",
+    "storage_bucket": "anime-recommendation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832236548768:android:599b6e05f9efc71ad64fc5",
+        "android_client_info": {
+          "package_name": "com.sinichi.animerecommendation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832236548768-ackb6ll862rt8bhh9lbs3a6ppd9kjv6a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sinichi.animerecommendation",
+            "certificate_hash": "b67064f7e8887887d0eede2045ba5538b532c98d"
+          }
+        },
+        {
+          "client_id": "832236548768-bhj47k79juvqqenepfdcdg6nb8njmbf3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLYJu-9GUqxQLjt7bD5hj5v-3Dz_ayru4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832236548768-bhj47k79juvqqenepfdcdg6nb8njmbf3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
