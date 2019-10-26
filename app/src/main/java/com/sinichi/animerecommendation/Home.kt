@@ -1,20 +1,18 @@
 package com.sinichi.animerecommendation
 
 
-import android.content.Context
-import android.os.AsyncTask
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -24,6 +22,9 @@ class Home : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var dataList: ArrayList<Model>
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var frameLayout: FrameLayout
+    private lateinit var mFirebaseDatabaseReference: FirebaseDatabase
+    private lateinit var animeRef: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,20 +35,28 @@ class Home : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_view)
         progressBar = view.findViewById(R.id.progress_circular)
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
+        frameLayout = view.findViewById(R.id.frame_layout)
 
         loadData()
         swipeRefreshLayout.setOnRefreshListener {
             loadData()
         }
+
         return view
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+    }
+
     private fun loadData() {
-        val mFirebaseDatabaseReference = FirebaseDatabase.getInstance()
-        var animeRef = mFirebaseDatabaseReference.reference.child("list_anime")
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance()
+        animeRef = mFirebaseDatabaseReference.reference.child("list_anime")
         val valueListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                Snackbar.make(frameLayout, "Connection Error, please exit", Snackbar.LENGTH_LONG)
+                    .show()
             }
 
             override fun onDataChange(p0: DataSnapshot) {
@@ -64,7 +73,6 @@ class Home : Fragment() {
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 adapter.notifyDataSetChanged()
             }
-
         }
         animeRef.addValueEventListener(valueListener)
     }
