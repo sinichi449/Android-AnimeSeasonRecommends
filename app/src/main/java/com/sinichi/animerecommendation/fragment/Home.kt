@@ -1,4 +1,4 @@
-package com.sinichi.animerecommendation
+package com.sinichi.animerecommendation.fragment
 
 
 import android.os.Bundle
@@ -13,10 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
+import com.sinichi.animerecommendation.R
+import com.sinichi.animerecommendation.adapter.RecyclerViewAdapter
+import com.sinichi.animerecommendation.model.Model
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class Home : Fragment() {
     lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -45,11 +46,6 @@ class Home : Fragment() {
         return view
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
-    }
-
     private fun loadData() {
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance()
         animeRef = mFirebaseDatabaseReference.reference.child("list_anime")
@@ -72,9 +68,29 @@ class Home : Fragment() {
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 adapter.notifyDataSetChanged()
+
+                // Adapter on click
+                adapter.setOnClickListener(object :
+                    RecyclerViewAdapter.AdapterClick {
+                    override fun onClick(model: Model, position: Int?) {
+                        val transaction = fragmentManager!!.beginTransaction()
+                        val details = Details()
+                        val arguments = Bundle()
+                        arguments.putString("judul", model.judul)
+                        arguments.putString("rating", model.rating)
+                        arguments.putString("deskripsi", model.deskripsi)
+                        arguments.putString("thumbnail", model.thumbnail)
+                        details.arguments = arguments
+                        transaction.replace(R.id.frame_layout, details)
+                        transaction.addToBackStack(null)
+                        transaction.commit()
+                    }
+
+                })
             }
         }
         animeRef.addValueEventListener(valueListener)
     }
+
 
 }

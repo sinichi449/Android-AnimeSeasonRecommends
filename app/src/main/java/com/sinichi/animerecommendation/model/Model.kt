@@ -1,4 +1,4 @@
-package com.sinichi.animerecommendation
+package com.sinichi.animerecommendation.model
 
 data class Model(
     var id: String = "",
